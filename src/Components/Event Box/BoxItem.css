@@ -39,10 +39,13 @@ h5{
     margin-top: 0.75rem;
 }
 
+.amount-select{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .buy-btn{
     cursor: pointer;
-    margin-top: 15px;
-    position: relative;
-    left: 50%;
-    max-width: fit-content;
+    max-width: max-content;
+    display: inline;
 }

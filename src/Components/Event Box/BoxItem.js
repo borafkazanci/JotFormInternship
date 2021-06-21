@@ -6,36 +6,22 @@ import { useEffect, useState } from 'react';
 // item id çekme:
 // redux ?
 // by exporting useStates?
-function BoxItem({ categories }) {
+function BoxItem({ categories, buyCategoryItem }) {
     const [buyCatId, setBuyCatId] = useState(-1);
     const [buyItemId, setBuyItemId] = useState(-1);
+    const [optionList, setOptionList] = useState();
+    const [valueNum, setValueNum] = useState();
 
     useEffect(() => {
         console.log(buyCatId);
         console.log(buyItemId);
-    }, [buyCatId, buyItemId])
 
-    const buyWorkshop = () => {
-        // every click or changes on numbers,
-        // refresh the components
-        if (buyCatId !== -1) {
-            if ((buyCatId.number > 0) && (buyItemId.number > 0)) {
-                //setBuyCatId({...buyCatId, number: buyCatId.number - 1});
-                //setBuyItemId({...buyItemId, number: buyItemId.number - 1});
-
-                buyCatId.number--; // i can add item number to
-                setBuyCatId({...buyCatId});
-                buyItemId.number--; //      get category number
-                setBuyItemId({...buyItemId});
-            }
-            else{
-                alert('Stock is out!');
-            }
+        const newArr = [0];
+        for (var i = 1; i <= buyItemId.number; i++) {
+            newArr.push(i);
         }
-        else {
-            alert('Choose an item from list!');
-        }
-    }
+        setOptionList(newArr);
+    }, [buyCatId, buyItemId]);
 
     return (
         <div>
@@ -52,9 +38,27 @@ function BoxItem({ categories }) {
                     })
                 }
             </div>
-            <div className="buy-btn">
-                <ImPacman onClick={buyWorkshop} />
+            <div className="amount-select">
+                <select name="amount" id="amount">
+                    {
+                        (buyItemId === -1) ?
+                            <option value="none">Choose an item</option> :
+                            optionList.map((i) => {
+                                return (
+                                    // not working as I intended
+                                    <option key={i} value={i} onClick={
+                                        event => setValueNum(event.target.value)}>
+                                        {i}
+                                    </option>
+                                );
+                            })
+                    }
+                </select>
             </div>
+            <div className="buy-btn">
+                <ImPacman onClick={() => buyCategoryItem(buyCatId.id, buyItemId.id, valueNum)} />
+            </div>
+
         </div>
     );
 }

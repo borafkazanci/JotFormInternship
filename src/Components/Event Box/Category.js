@@ -8,8 +8,7 @@ function Category({ category, setBuyCatId, setBuyItemId }) {
 
     useEffect(() => {
         setShowItems(false);
-        console.log('Init Category: hello');
-    }, [setBuyCatId])
+    }, [])
 
     const passItself = (itself) => {
         setBuyCatId(category);

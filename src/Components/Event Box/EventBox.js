@@ -3,36 +3,72 @@ import wsData from "../data";
 import { useEffect, useState } from "react";
 
 function EventBox() {
-    const [categories, setCategory] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [items, setItems] = useState([]);
+    const [firstRun, setFirstRun] = useState();
 
     const initDatas = (type) => {
         const newSets = wsData.filter((wshop) =>
             (wshop.type).substring(0, 4) === type
         );
         (type === 'cate') ?
-            setCategory(newSets) :
+            setCategories(newSets) :
             setItems(newSets);
     };
 
     useEffect(() => {
         initDatas('cate');
         initDatas('item');
+        setFirstRun(false);
     }, []);
 
     useEffect(() => {
-        categories.forEach(cat => {
-            var count = 0;
-            items.forEach(item => {
-                if ((cat.type).substring(5) === (item.type).substring(5)) {
-                    cat.items[count++] = item;
-                }
+        if (firstRun === false) {
+            categories.forEach(cat => {
+                var count = 0;
+                items.forEach(item => {
+                    if ((cat.type).substring(5) === (item.type).substring(5)) {
+                        cat.items[count++] = item;
+                    }
+                });
             });
-        });
-    }, [categories, items]);
+            setFirstRun(true);
+        }
+    }, [categories, items, firstRun]);
+
+    const buyCategoryItem = (categoryID, itemID, amount) => {
+        console.log(amount);
+        if (categoryID > 0) {
+            const selectedCategory = { ...categories.find(({ id }) => id === categoryID) };
+            const newCategories = categories.filter(({ id }) => id !== categoryID);
+
+            const selectedItem = { ...(selectedCategory.items).find(({ id }) => id === itemID) };
+            const newItems = (selectedCategory.items).filter(({ id }) => id !== itemID);
+
+            if ((selectedCategory.number > 0) && (selectedItem.number > 0)) {
+                selectedCategory.number--; // can be change according to
+                selectedItem.number--;      // users choice (amount)
+
+                newItems.push(selectedItem);
+                newItems.sort((a, b) => a.id - b.id);
+                selectedCategory.items = newItems;
+
+                newCategories.push(selectedCategory);
+                newCategories.sort((a, b) => a.id - b.id);
+
+                setCategories(newCategories);
+            }
+            else {
+                alert('Stock is out!');
+            }
+        }
+        else {
+            alert('Choose an item from list!');
+        }
+    };
 
     return <div>
-        <BoxItem categories={categories}  />
+        <BoxItem categories={categories} buyCategoryItem={buyCategoryItem} />
     </div>
 }
 
