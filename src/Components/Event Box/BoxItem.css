@@ -1,0 +1,48 @@
+.item-box{
+    display: inline-table;
+    max-width: fit-content;
+    align-items: center;
+}
+
+.item{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.item-box-left{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.item-box-right{
+    right: 0px;
+}
+
+.ava-text{
+    color: rgb(0, 255, 0);
+}
+
+.arrowdown-btn{
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+h4, 
+h5{
+    letter-spacing: var(--spacing);
+    text-transform: capitalize;
+    line-height: 0;
+    margin-bottom: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.buy-btn{
+    cursor: pointer;
+    margin-top: 15px;
+    position: relative;
+    left: 50%;
+    max-width: fit-content;
+}
