@@ -46,8 +46,8 @@ function EventBox() {
             const newItems = (selectedCategory.items).filter(({ id }) => id !== itemID);
 
             if ((selectedCategory.number > 0) && (selectedItem.number > 0)) {
-                selectedCategory.number--; // can be change according to
-                selectedItem.number--;      // users choice (amount)
+                selectedCategory.number -= amount;
+                selectedItem.number -= amount;
 
                 newItems.push(selectedItem);
                 newItems.sort((a, b) => a.id - b.id);

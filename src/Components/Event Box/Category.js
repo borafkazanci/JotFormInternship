@@ -39,9 +39,24 @@ function Category({ category, setBuyCatId, setBuyItemId }) {
                     <h4>{title}</h4>
                 </div>
                 <div className="item-box-right">
-                    <h5 className="ava-text">
-                        {number} available
-                    </h5>
+                    {
+                        number === 0 ?
+                            <h5 className="not-ava-text">
+                                {number} available
+                            </h5> :
+                            <h5 className="ava-text">
+                                {number} available
+                            </h5>
+                    }
+                    {
+                        (type.substring(0, 4) === 'item') ?
+                            <h5 className="price-text">
+                                ${itself.price}
+                            </h5> :
+                            <h5 className="price-text">
+
+                            </h5>
+                    }
                 </div>
                 <article>
                     {

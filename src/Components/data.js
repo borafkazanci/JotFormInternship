@@ -18,38 +18,36 @@ const wsData = [
         id: 3,
         type: 'item-cooking',
         title: 'meat cooking workshop',
-        number: 3
+        number: 3,
+        price: 100
     },
     {
         id: 4,
         type: 'item-cooking',
         title: 'sushi workshop',
-        number: 3
+        number: 3,
+        price: 110
     },
     {
         id: 5,
         type: 'item-cooking',
         title: 'italian pasta workshop',
-        number: 4
+        number: 4,
+        price: 90
     },
     {
         id: 6,
         type: 'item-pastry',
         title: 'birthday cake workshop',
-        number: 3
+        number: 3,
+        price: 100
     },
     {
         id: 7,
         type: 'item-pastry',
         title: 'cupcake workshop',
-        number: 2
-    },
-    {
-        id: 8,
-        type: 'cate-boutiquePastry',
-        title: 'boutique pastry workshops',
-        number: 0,
-        items: []
+        number: 2,
+        price: 90
     }
 ];
 export default wsData;

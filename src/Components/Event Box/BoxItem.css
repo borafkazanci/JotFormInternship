@@ -2,6 +2,7 @@
     display: inline-table;
     max-width: fit-content;
     align-items: center;
+    background-color: aliceblue;
 }
 
 .item{
@@ -16,11 +17,19 @@
 }
 
 .item-box-right{
-    right: 0px;
+    display: flex;
 }
 
 .ava-text{
     color: rgb(0, 255, 0);
+}
+
+.not-ava-text{
+    color: rgb(255, 0, 0);
+}
+
+.price-text{
+    margin-left: 200px;
 }
 
 .arrowdown-btn{

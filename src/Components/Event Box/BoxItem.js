@@ -1,6 +1,6 @@
 import './BoxItem.css';
 import Category from './Category';
-import { ImPacman } from 'react-icons/im';
+import { GiBuyCard } from 'react-icons/gi';
 import { useEffect, useState } from 'react';
 
 // item id çekme:
@@ -13,9 +13,6 @@ function BoxItem({ categories, buyCategoryItem }) {
     const [valueNum, setValueNum] = useState();
 
     useEffect(() => {
-        console.log(buyCatId);
-        console.log(buyItemId);
-
         const newArr = [0];
         for (var i = 1; i <= buyItemId.number; i++) {
             newArr.push(i);
@@ -39,15 +36,14 @@ function BoxItem({ categories, buyCategoryItem }) {
                 }
             </div>
             <div className="amount-select">
-                <select name="amount" id="amount">
+                <select name="amount" id="amount" onChange={event => setValueNum(event.target.value)}>
                     {
                         (buyItemId === -1) ?
                             <option value="none">Choose an item</option> :
                             optionList.map((i) => {
                                 return (
                                     // not working as I intended
-                                    <option key={i} value={i} onClick={
-                                        event => setValueNum(event.target.value)}>
+                                    <option key={i} value={i}>
                                         {i}
                                     </option>
                                 );
@@ -56,7 +52,9 @@ function BoxItem({ categories, buyCategoryItem }) {
                 </select>
             </div>
             <div className="buy-btn">
-                <ImPacman onClick={() => buyCategoryItem(buyCatId.id, buyItemId.id, valueNum)} />
+                <button onClick={() => buyCategoryItem(buyCatId.id, buyItemId.id, valueNum)}>
+                    <GiBuyCard /> Buy Tickets
+                </button>
             </div>
 
         </div>

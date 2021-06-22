@@ -1,8 +1,31 @@
 import EventBox from './Event Box/EventBox';
-//import { useEffect, useState } from 'react';
+import CreateEventBox from './Create Event Box/CreateEventBox';
+import { useState } from 'react';
 
 function TicketSelector() {
-/*    const quest = {
+    const [sell, setSell] = useState(true);
+    
+    return (
+        <div className="App">
+            <button onClick={() => setSell(!sell)}>
+                Set Sell
+            </button>
+            <button onClick={() => localStorage.clear()}>
+                Clear Local Storage
+            </button>
+            <div>
+                <h1>Welcome Bruh</h1>
+                {
+                    sell ?
+                    <CreateEventBox /> :
+                    <EventBox />
+                }
+            </div>
+        </div>
+
+    );
+    /*    
+    const quest = {
         text: '',
         order: ''
     }
@@ -87,14 +110,7 @@ function TicketSelector() {
             method: "POST"
         });
     });
-*/
-    return (
-        <div className="App">
-            <h1>Welcome Bruh</h1>
-            <EventBox />
-        </div>
-
-    );
+    */
 }
 
 export default TicketSelector;
