@@ -1,40 +1,45 @@
 import BoxItem from "./BoxItem";
-import wsData from "../data";
+//import wsData from "../data";
 import { useEffect, useState } from "react";
 
 function EventBox() {
     const [categories, setCategories] = useState([]);
-    const [items, setItems] = useState([]);
-    const [firstRun, setFirstRun] = useState();
 
-    const initDatas = (type) => {
-        const newSets = wsData.filter((wshop) =>
-            (wshop.type).substring(0, 4) === type
-        );
-        (type === 'cate') ?
-            setCategories(newSets) :
-            setItems(newSets);
+    const [firstRun, setFirstRun] = useState();
+    const [isCatChanged, setIsCatChanged] = useState();
+    const [isLoad, setIsLoad] = useState();
+
+    const getLocalData = () => {
+        const data = JSON.parse(localStorage.getItem('wsData'));
+
+        if (data === null) {
+            setIsLoad(false);
+        }
+        else {
+            setIsLoad(true);
+            return data;
+        }
     };
 
     useEffect(() => {
-        initDatas('cate');
-        initDatas('item');
         setFirstRun(false);
+        setIsCatChanged(false);
     }, []);
 
     useEffect(() => {
-        if (firstRun === false) {
-            categories.forEach(cat => {
-                var count = 0;
-                items.forEach(item => {
-                    if ((cat.type).substring(5) === (item.type).substring(5)) {
-                        cat.items[count++] = item;
-                    }
-                });
-            });
+        const data = getLocalData();
+        if (!firstRun) {
+            setCategories(data);
             setFirstRun(true);
         }
-    }, [categories, items, firstRun]);
+        else if (isCatChanged) {
+            localStorage.clear();
+            localStorage.setItem('wsData', JSON.stringify(categories));
+
+            setCategories(data);
+            setIsCatChanged(false);
+        }
+    }, [categories, firstRun, isCatChanged]);
 
     const buyCategoryItem = (categoryID, itemID, amount) => {
         console.log(amount);
@@ -57,6 +62,7 @@ function EventBox() {
                 newCategories.sort((a, b) => a.id - b.id);
 
                 setCategories(newCategories);
+                setIsCatChanged(true);
             }
             else {
                 alert('Stock is out!');
@@ -68,7 +74,11 @@ function EventBox() {
     };
 
     return <div>
-        <BoxItem categories={categories} buyCategoryItem={buyCategoryItem} />
+        {
+            isLoad ?
+                <BoxItem categories={categories} buyCategoryItem={buyCategoryItem} /> :
+                <h4>can't load the page</h4>
+        }
     </div>
 }
 

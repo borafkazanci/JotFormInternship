@@ -10,7 +10,10 @@ function TicketSelector() {
             <button onClick={() => setSell(!sell)}>
                 Set Sell
             </button>
-            <button onClick={() => localStorage.clear()}>
+            <button onClick={function(event){
+                localStorage.clear();
+                console.log('Local storage is clear.')
+            }}>
                 Clear Local Storage
             </button>
             <div>

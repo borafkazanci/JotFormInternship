@@ -1,36 +1,16 @@
 import './Create.css';
-//import Row from './Row';
-import { useEffect, useState } from 'react';
+import Row from './Row';
+import { useState } from 'react';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 
-/*
-    {
-        id: 1,
-        type: 'cate-cooking',
-        title: 'cooking workshops',
-        number: 10,
-        items: []
-    }
-    {
-        id: 3,
-        type: 'item-cooking',
-        title: 'meat cooking workshop',
-        number: 3,
-        price: 100
-    }
-*/
-
-function Table({ setWSData, addRow }) {
+function Table({ wsData, addRow, deleteRow }) {
     // Product properties
     const [typeCheck, setTypeCheck] = useState(false);
     const [title, setTitle] = useState('');
     const [typeName, setTypeName] = useState('');
-    const [amount, setAmount] = useState(''); // take this as integer
-    const [price, setPrice] = useState('');     // take this as integer
+    const [amount, setAmount] = useState(0); // take this as integer
+    const [price, setPrice] = useState(0);     // take this as integer
 
-    useEffect(() => {
-        console.log(typeCheck, title, typeName, amount, price);
-    }, [amount, price, title, typeCheck, typeName]);
 
     return (
         <div className="container-table">
@@ -62,25 +42,31 @@ function Table({ setWSData, addRow }) {
                             />
                         </td>
                         <td>
-                            <input type="text" className="text-b"
-                                onChange={event => setTypeName(event.target.value)}
-                            />
+                            <div className="type-box">
+                                <input type="text" className="text-b"
+                                    onChange={event => setTypeName(event.target.value)}
+                                />
+                                <span className="type-box-text">
+                                    Type name should be the same between category and its items.
+                                    ex: cate-cooking, item-cooking, item-cooking...
+                                </span>
+                            </div>
                         </td>
                         <td>
                             {
                                 typeCheck ?
-                                    <input type="text" className="text-b" disabled /> :
-                                    <input type="text" className="text-b"
-                                        onChange={event => setAmount(event.target.value)}
+                                    <input type="number" className="text-b" disabled /> :
+                                    <input type="number" className="text-b"
+                                        onChange={event => setAmount(parseInt(event.target.value))}
                                     />
                             }
                         </td>
                         <td>
                             {
                                 typeCheck ?
-                                    <input type="text" className="text-b" disabled /> :
-                                    <input type="text" className="text-b"
-                                        onChange={event => setPrice(event.target.value)}
+                                    <input type="number" className="text-b" disabled /> :
+                                    <input type="number" className="text-b"
+                                        onChange={event => setPrice(parseInt(event.target.value))}
                                     />
                             }
                         </td>
@@ -91,6 +77,11 @@ function Table({ setWSData, addRow }) {
                         </td>
                     </tr>
                 </tbody>
+                {
+                    wsData.map((data) => {
+                        return <Row key={data.id} data={data} deleteRow={deleteRow} />
+                    })
+                }
             </table>
         </div>
     );
