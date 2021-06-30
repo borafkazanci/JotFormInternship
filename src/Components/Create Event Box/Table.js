@@ -2,15 +2,31 @@ import './Create.css';
 import Row from './Row';
 import { useState } from 'react';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
+import { CgCalendarDates } from 'react-icons/cg';
+import DateSelector from './DateSelector';
+import { dateArraySort } from '../../Utils';
 
 function Table({ wsData, addRow, deleteRow }) {
     // Product properties
     const [typeCheck, setTypeCheck] = useState(false);
     const [title, setTitle] = useState('');
     const [typeName, setTypeName] = useState('');
-    const [amount, setAmount] = useState(0); // take this as integer
-    const [price, setPrice] = useState(0);     // take this as integer
+    const [amount, setAmount] = useState(0);    // take this as integer - item
+    const [price, setPrice] = useState(0);      // take this as integer - item
+    const [dates, setDates] = useState([]);     // from AppointmentBox
 
+    const [chooseDate, setChooseDate] = useState(false);
+    const [datesAll, setDatesAll] = useState([]);
+
+    const changeAndResetData = (dates) => {
+        const oldArr = [...datesAll];
+        dates.map((date) => {
+            return oldArr.push(date)
+        });
+        const newArr = dateArraySort(oldArr);
+        setDates([]);
+        setDatesAll(newArr);
+    }
 
     return (
         <div className="container-table">
@@ -22,6 +38,7 @@ function Table({ wsData, addRow, deleteRow }) {
                         <th>Type Name </th>
                         <th>Amount </th>
                         <th>Price </th>
+                        <th>Dates</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +46,10 @@ function Table({ wsData, addRow, deleteRow }) {
                         <td>
                             <div className="type-box">
                                 <input type="checkbox" className="larger"
-                                    onClick={() => setTypeCheck(!typeCheck)}
+                                    onClick={function (event) {
+                                        setTypeCheck(!typeCheck);
+                                        setChooseDate(!chooseDate)
+                                    }}
                                 />
                                 <span className="type-box-text">
                                     Check it if you want to add a category as a row.
@@ -71,9 +91,35 @@ function Table({ wsData, addRow, deleteRow }) {
                             }
                         </td>
                         <td>
-                            <button onClick={() => addRow(typeCheck, title, typeName, amount, price)}>
-                                <AiOutlineAppstoreAdd />
-                            </button>
+                            {
+                                typeCheck ?
+                                    <button disabled>
+                                        <CgCalendarDates />
+                                    </button> :
+                                    <button onClick={() => setChooseDate(!chooseDate)}>
+                                        <CgCalendarDates />
+                                    </button>
+                            }
+                            {
+                                typeCheck ?
+                                    null :
+                                    chooseDate ?
+                                        <DateSelector dates={dates} setDates={setDates} /> :
+                                        null
+                            }
+                        </td>
+                        <td>
+                            <div className="type-box">
+                                <button onClick={function (event) {
+                                    addRow(typeCheck, title, typeName, amount, price, dates);
+                                    changeAndResetData(dates)
+                                }}>
+                                    <AiOutlineAppstoreAdd />
+                                </button>
+                                <span className="type-box-text">
+                                    Add to row
+                                </span>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

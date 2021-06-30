@@ -2,13 +2,12 @@ import './BoxItem.css';
 import Category from './Category';
 import { GiBuyCard } from 'react-icons/gi';
 import { useEffect, useState } from 'react';
+import AppointmentBox from '../AppointmentBox';
 
-// item id çekme:
-// redux ?
-// by exporting useStates?
 function BoxItem({ categories, buyCategoryItem }) {
-    const [buyCatId, setBuyCatId] = useState(-1);
-    const [buyItemId, setBuyItemId] = useState(-1);
+    const [buyCatId, setBuyCatId] = useState(false);
+    const [buyItemId, setBuyItemId] = useState(false);
+
     const [optionList, setOptionList] = useState();
     const [valueNum, setValueNum] = useState();
 
@@ -34,20 +33,31 @@ function BoxItem({ categories, buyCategoryItem }) {
                         );
                     })
                 }
+                <AppointmentBox />
+                {
+                    // date picker -> one day appointment box
+                    // date picker shows available days for that chosen event -> appointment box show hours that is available
+
+                    // prepare: set local data at inventory table per month to ease ui/ux at creating forms
+                }
             </div>
             <div className="amount-select">
+                {
+                    buyCatId ?
+                        <h3><p>Now Chosen :</p> {buyItemId.title} from {buyCatId.title}</h3> :
+                        null
+                }
                 <select name="amount" id="amount" onChange={event => setValueNum(event.target.value)}>
                     {
-                        (buyItemId === -1) ?
-                            <option value="none">Choose an item</option> :
+                        buyItemId ?
                             optionList.map((i) => {
                                 return (
-                                    // not working as I intended
                                     <option key={i} value={i}>
                                         {i}
                                     </option>
                                 );
-                            })
+                            }) :
+                            <option value="none">Choose an item</option>
                     }
                 </select>
             </div>
@@ -56,7 +66,6 @@ function BoxItem({ categories, buyCategoryItem }) {
                     <GiBuyCard /> Buy Tickets
                 </button>
             </div>
-
         </div>
     );
 }

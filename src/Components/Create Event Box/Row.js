@@ -1,27 +1,9 @@
-import { useEffect, useState } from "react";
+import './Create.css';
 import { AiFillDelete } from 'react-icons/ai';
+import { BiShow } from 'react-icons/bi';
 
 function Row({ data, deleteRow }) {
-    const [typeCheck, setTypeCheck] = useState('');
-    const [titleCheck, setTitleCheck] = useState('');
-    const [numberCheck, setNumberCheck] = useState(0);
-    const [priceCheck, setPriceCheck] = useState(0);
-
-    useEffect(() => {
-        if ((data.type).substring(0, 4) === 'cate') {
-            const { type, title, number } = data;
-            setTypeCheck(type);
-            setTitleCheck(title);
-            setNumberCheck(number);
-        }
-        else {
-            const { type, title, number, price } = data;
-            setTypeCheck(type);
-            setTitleCheck(title);
-            setNumberCheck(number);
-            setPriceCheck(price);
-        }
-    }, [data]);
+    const { type: typeCheck, title: titleCheck, number: numberCheck, price: priceCheck, dates: datesArr } = data;
 
     return (
         <tbody>
@@ -30,7 +12,7 @@ function Row({ data, deleteRow }) {
                     {
                         typeCheck !== '' ?
                             typeCheck.substring(0, 4) :
-                            console.log()
+                            null
                     }
                 </td>
                 <td>
@@ -42,31 +24,52 @@ function Row({ data, deleteRow }) {
                     {
                         typeCheck !== '' ?
                             typeCheck.substring(5) :
-                            console.log()
+                            null
                     }
                 </td>
                 <td>
                     {
                         typeCheck !== '' ?
                             (typeCheck.substring(0, 4) === 'cate' ?
-                                console.log() :
+                                null :
                                 numberCheck) :
-                            console.log()
+                            null
                     }
                 </td>
                 <td>
                     {
                         typeCheck !== '' ?
                             (typeCheck.substring(0, 4) === 'cate' ?
-                                console.log() :
-                                priceCheck) :
-                            console.log()
+                                null :
+                                <p>${priceCheck}</p>) :
+                            null
                     }
                 </td>
                 <td>
-                    <button onClick={() => deleteRow(data)}>
-                        <AiFillDelete />
-                    </button>
+                    <div className="type-box">
+                        <label><BiShow className="show-dates-btn" /></label>
+                        <span className="type-box-text-long">
+                            {
+                                datesArr.map((data) => {
+                                    return (
+                                        <h5 key={data.day + data.number} >
+                                            Day:{data.day} - Number:{data.number}
+                                        </h5>
+                                    );
+                                })
+                            }
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div className="type-box">
+                        <button onClick={() => deleteRow(data)}>
+                            <AiFillDelete />
+                        </button>
+                        <span className="type-box-text">
+                            Delete row
+                        </span>
+                    </div>
                 </td>
             </tr>
         </tbody>

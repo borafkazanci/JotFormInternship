@@ -4,24 +4,29 @@ import { useState } from 'react';
 
 function TicketSelector() {
     const [sell, setSell] = useState(true);
-    
+
     return (
         <div className="App">
-            <button onClick={() => setSell(!sell)}>
-                Set Sell
-            </button>
-            <button onClick={function(event){
+            <button onClick={function (event) {
                 localStorage.clear();
                 console.log('Local storage is clear.')
             }}>
                 Clear Local Storage
             </button>
             <div>
+                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+            </div>
+            <div>
+                <button onClick={() => setSell(!sell)}>
+                    Change Mode - Sicko Mode ... diüd diüd diüd
+                </button>
+            </div>
+            <div>
                 <h1>Welcome Bruh</h1>
                 {
                     sell ?
-                    <CreateEventBox /> :
-                    <EventBox />
+                        <CreateEventBox /> :
+                        <EventBox />
                 }
             </div>
         </div>

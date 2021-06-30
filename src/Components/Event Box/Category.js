@@ -1,19 +1,10 @@
 import './BoxItem.css';
 import { AiOutlineArrowDown } from 'react-icons/ai';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function Category({ category, setBuyCatId, setBuyItemId }) {
     const { id, title, type, number, items } = category;
-    const [showItems, setShowItems] = useState();
-
-    useEffect(() => {
-        setShowItems(false);
-    }, [])
-
-    const passItself = (itself) => {
-        setBuyCatId(category);
-        setBuyItemId(itself);
-    }
+    const [showItems, setShowItems] = useState(false);
 
     const itemBox = (
         id,
@@ -27,13 +18,16 @@ function Category({ category, setBuyCatId, setBuyItemId }) {
             <article key={id} className="item">
                 <div className='item-box-left'>
                     {
-                        (type.substring(0, 4) === 'cate') ?
+                        type.substring(0, 4) === 'cate' ?
                             <AiOutlineArrowDown className="arrowdown-btn"
                                 onClick={() =>
                                     setShowItems(!showItems)
                                 } /> :
                             <input type="radio" name="items"
-                                onClick={() => passItself(itself)}
+                                onClick={function (event) {
+                                    setBuyCatId(category);
+                                    setBuyItemId(itself)
+                                }}
                             />
                     }
                     <h4>{title}</h4>
@@ -49,7 +43,7 @@ function Category({ category, setBuyCatId, setBuyItemId }) {
                             </h5>
                     }
                     {
-                        (type.substring(0, 4) === 'item') ?
+                        type.substring(0, 4) === 'item' ?
                             <h5 className="price-text">
                                 ${itself.price}
                             </h5> :
@@ -61,16 +55,14 @@ function Category({ category, setBuyCatId, setBuyItemId }) {
                 <article>
                     {
                         showItems &&
-                        (
-                            <div>
-                                {
-                                    items.map((item) => {
-                                        return itemBox(item.id, item.title,
-                                            item.type, item.number, [], item);
-                                    })
-                                }
-                            </div>
-                        )
+                        <div>
+                            {
+                                items.map((item) => {
+                                    return itemBox(item.id, item.title,
+                                        item.type, item.number, [], item);
+                                })
+                            }
+                        </div>
                     }
                 </article>
             </article>

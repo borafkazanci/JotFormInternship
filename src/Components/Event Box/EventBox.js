@@ -1,5 +1,5 @@
 import BoxItem from "./BoxItem";
-//import wsData from "../data";
+//import sheetData from "../data";
 import { useEffect, useState } from "react";
 
 function EventBox() {

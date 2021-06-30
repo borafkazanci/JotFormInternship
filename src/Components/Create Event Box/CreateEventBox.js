@@ -7,8 +7,8 @@ function CreateEventBox() {
     const [countID, setCountID] = useState(1);
 
     useEffect(() => {
-        
-    }, [countID, wsData])
+
+    }, [wsData])
 
     const itemNumberAdder = (cData) => {
         let totalAmount = 0;
@@ -62,7 +62,9 @@ function CreateEventBox() {
         typeName,
         amount,
         price,
+        dates
     ) => {
+        let object;
         if (typeCheck) {             // category
             if (title === '' || typeName === '') {
                 alert('Please fill text boxes before add new row!');
@@ -70,19 +72,13 @@ function CreateEventBox() {
             else {
                 const type = 'cate-' + typeName;
 
-                const categoryObject = {
+                object = {
                     id: countID,
                     type: type,
                     title: title,
                     number: 0,
                     items: []
                 };
-
-                const newArr = [...wsData];
-                newArr.push(categoryObject);
-
-                setWSData(newArr);
-                setCountID(countID + 1);
             }
         }
         else {                       // item
@@ -96,22 +92,26 @@ function CreateEventBox() {
                 else {
                     const type = 'item-' + typeName;
 
-                    const itemObject = {
+                    object = {
                         id: countID,
                         type: type,
                         title: title,
                         number: amount,
-                        price: price
+                        price: price,
+                        dates: []
                     };
 
-                    const newArr = [...wsData];
-                    newArr.push(itemObject);
-
-                    setWSData(newArr);
-                    setCountID(countID + 1);
+                    dates.forEach((data) => {
+                        object.dates.push(data);
+                    })
                 }
             }
         }
+        const newArr = [...wsData];
+        newArr.push(object);
+
+        setWSData(newArr);
+        setCountID(countID + 1);
     };
 
     const deleteRow = (data) => {
