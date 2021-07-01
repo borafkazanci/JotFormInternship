@@ -19,13 +19,15 @@ function Table({ wsData, addRow, deleteRow }) {
     const [datesAll, setDatesAll] = useState([]);
 
     const changeAndResetData = (dates) => {
-        const oldArr = [...datesAll];
-        dates.map((date) => {
-            return oldArr.push(date)
-        });
-        const newArr = dateArraySort(oldArr);
-        setDates([]);
-        setDatesAll(newArr);
+        if (dates.length !== 0) {
+            const oldArr = [...datesAll];
+            dates.map((date) => {
+                return oldArr.push(date)
+            });
+            const newArr = dateArraySort(oldArr);
+            setDates([]);
+            setDatesAll(newArr);
+        }
     }
 
     return (
@@ -104,7 +106,7 @@ function Table({ wsData, addRow, deleteRow }) {
                                 typeCheck ?
                                     null :
                                     chooseDate ?
-                                        <DateSelector dates={dates} setDates={setDates} /> :
+                                        <DateSelector dates={dates} setDates={setDates} datesAll={datesAll} /> :
                                         null
                             }
                         </td>

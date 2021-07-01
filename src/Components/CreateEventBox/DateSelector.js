@@ -8,19 +8,22 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import addMonths from "date-fns/addMonths";
 
-function DateSelector({ dates, setDates }) {
+function DateSelector({ dates, setDates, datesAll }) {
     const [startDate, setStartDate] = useState(new Date());
     const [intervalDate, setIntervalDate] = useState('');
 
     useEffect(() => {
         const dateString = getDateStringFromStartDate(startDate);
         setIntervalDate(dateString);
-        console.log(organizeAppointmentBoxDates(startDate, dates));
-    }, [startDate, dates]);
+        //console.log(organizeAppointmentBoxDates(startDate, datesAll));
+    }, [startDate, datesAll]);
 
     return (
         <div>
             <div className="datepicker">
+            {
+                // moment js - lib
+            }
                 <DatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}

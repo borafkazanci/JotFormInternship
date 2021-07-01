@@ -2,7 +2,7 @@ import './BoxItem.css';
 import Category from './Category';
 import { GiBuyCard } from 'react-icons/gi';
 import { useEffect, useState } from 'react';
-import AppointmentBox from '../AppointmentBox';
+//import AppointmentBox from '../AppointmentBox';
 
 function BoxItem({ categories, buyCategoryItem }) {
     const [buyCatId, setBuyCatId] = useState(false);
@@ -33,8 +33,8 @@ function BoxItem({ categories, buyCategoryItem }) {
                         );
                     })
                 }
-                <AppointmentBox />
                 {
+                    //<AppointmentBox />
                     // date picker -> one day appointment box
                     // date picker shows available days for that chosen event -> appointment box show hours that is available
 

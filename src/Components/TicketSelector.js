@@ -1,5 +1,5 @@
-import EventBox from './Event Box/EventBox';
-import CreateEventBox from './Create Event Box/CreateEventBox';
+import EventBox from './EventBox/EventBox';
+import CreateEventBox from './CreateEventBox/CreateEventBox';
 import { useState } from 'react';
 
 function TicketSelector() {
@@ -18,7 +18,7 @@ function TicketSelector() {
             </div>
             <div>
                 <button onClick={() => setSell(!sell)}>
-                    Change Mode - Sicko Mode ... diüd diüd diüd
+                    Change Mode
                 </button>
             </div>
             <div>

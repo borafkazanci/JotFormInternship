@@ -46,20 +46,27 @@ function Row({ data, deleteRow }) {
                     }
                 </td>
                 <td>
-                    <div className="type-box">
-                        <label><BiShow className="show-dates-btn" /></label>
-                        <span className="type-box-text-long">
-                            {
-                                datesArr.map((data) => {
-                                    return (
-                                        <h5 key={data.day + data.number} >
-                                            Day:{data.day} - Number:{data.number}
-                                        </h5>
-                                    );
-                                })
-                            }
-                        </span>
-                    </div>
+                    {
+                        typeCheck !== '' ?
+                            (typeCheck.substring(0, 4) === 'cate' ?
+                                null :
+                                <div className="type-box">
+                                    <label><BiShow className="show-dates-btn" /></label>
+                                    <span className="type-box-text-long">
+                                        {
+                                            datesArr.map((data) => {
+                                                return (
+                                                    <h5 key={data.day + data.number} >
+                                                        Day:{data.day} - Number:{data.number}
+                                                    </h5>
+                                                );
+                                            })
+                                        }
+                                    </span>
+                                </div>
+                            ) :
+                            null
+                    }
                 </td>
                 <td>
                     <div className="type-box">

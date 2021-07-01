@@ -36,13 +36,11 @@ function EventBox() {
             localStorage.clear();
             localStorage.setItem('wsData', JSON.stringify(categories));
 
-            setCategories(data);
             setIsCatChanged(false);
         }
     }, [categories, firstRun, isCatChanged]);
 
     const buyCategoryItem = (categoryID, itemID, amount) => {
-        console.log(amount);
         if (categoryID > 0) {
             const selectedCategory = { ...categories.find(({ id }) => id === categoryID) };
             const newCategories = categories.filter(({ id }) => id !== categoryID);

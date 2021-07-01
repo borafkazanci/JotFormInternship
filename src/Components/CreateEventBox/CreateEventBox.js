@@ -43,7 +43,7 @@ function CreateEventBox() {
                         );
                     });
                     newArr.sort((a, b) => a.id - b.id);
-                    localStorage.setItem('wsData', JSON.stringify(newArr));
+                    localStorage.setItem('wsData', JSON.stringify(newArr)); // redux?
                     alert('Data saved in local storage!');
                 }
                 else {
@@ -79,6 +79,11 @@ function CreateEventBox() {
                     number: 0,
                     items: []
                 };
+
+                const newArr = [...wsData];
+                newArr.push(object);
+                setWSData(newArr);
+                setCountID(countID + 1);
             }
         }
         else {                       // item
@@ -104,14 +109,19 @@ function CreateEventBox() {
                     dates.forEach((data) => {
                         object.dates.push(data);
                     })
+
+                    if (object.dates.length !== 0) {
+                        const newArr = [...wsData];
+                        newArr.push(object);
+                        setWSData(newArr);
+                        setCountID(countID + 1);
+                    }
+                    else {
+                        alert('Please fill text boxes before add new row!');
+                    }
                 }
             }
         }
-        const newArr = [...wsData];
-        newArr.push(object);
-
-        setWSData(newArr);
-        setCountID(countID + 1);
     };
 
     const deleteRow = (data) => {
