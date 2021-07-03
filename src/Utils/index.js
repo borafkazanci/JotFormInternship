@@ -12,11 +12,22 @@ export const dateArraySort = (arr) => {
 const firstLastDateCalculator = (startDate) => {
     const curr = new Date(startDate);
     const first = curr.getDate() - curr.getDay() + 1;
-    const last = first + 7;
+    const last = first + 6;
 
     const firstDay = new Date(curr.setDate(first));
-    const lastDay = new Date(curr.setDate(last));
-    return [firstDay, lastDay, first, last];
+    let lastDay = new Date(curr.setDate(last));
+
+    if (first <= 0) {
+        lastDay = new Date(
+            curr.getFullYear(),
+            curr.getMonth() + 1,
+            last);
+    }
+    else {
+        lastDay = new Date(curr.setDate(last));
+    }
+
+    return [firstDay, lastDay];
 }
 
 export const getDateStringFromStartDate = (startDate) => {
@@ -33,43 +44,32 @@ export const organizeAppointmentBoxDates = (
     datesAll
 ) => {
     // REDUX ?????
-
     const firstDay = firstLastDateCalculator(startDate)[0];
     const lastDay = firstLastDateCalculator(startDate)[1];
-    const first = firstLastDateCalculator(startDate)[2];
-    const last = firstLastDateCalculator(startDate)[3];
 
-    console.log(firstDay.getTime() === lastDay.getTime());
-    console.log(firstDay.getTime() );
+    let tempArr = [];
+    const fTime = firstDay.getTime();
+    const lTime = lastDay.getTime();
+    tempArr = datesAll.filter((function callbacFn(date) {
+        const dfTime = new Date(
+            date.day.substring(6),
+            date.day.substring(3, 5) - 1,
+            date.day.substring(0, 2), 20)?.getTime();
+        const dlTime = new Date(
+            date.day.substring(6),
+            date.day.substring(3, 5) - 1,
+            date.day.substring(0, 2), 10)?.getTime();
 
-    const tempArr = [];
-    console.log('datesAll', datesAll)
-    datesAll.some(function (date) {
-        console.log(date.day?.getTime());
-        const fTime = firstDay.getTime();
-        const lTime = lastDay.getTime();
-        const dTime = date.day?.getTime();
-
-        if (fTime <= dTime && dTime < lTime){
-            tempArr.push(date);
-        }
-        return dTime >= lTime;
-        /*
-        if ((date.day).substring(3, 5) + (date.day).substring(0, 2) < lastDayDate) {
-            tempArr.push(date);
-        }
-        return ((date.day).substring(3, 5) + (date.day).substring(0, 2) >= lastDayDate);
-        */
-    })
+        return fTime <= dfTime && dlTime <= lTime;
+    }));
 
     const daysObject = {
         id: firstDay,
         days: []
     };
 
-    // id gezzzz
     let arr = [];
-    for (var i = 1; i <= 20; i++) {
+    for (var i = 1; i <= 24; i++) {
         const dayItem = {
             id: '',
             number: '',
@@ -77,35 +77,20 @@ export const organizeAppointmentBoxDates = (
         };
 
         dayItem.id = i;
-        dayItem.number = i;
-        if ('isExistinsmth' === arr) {
-            dayItem.isReserved = true;
-        }
+        dayItem.number = i % 4 === 0 ? 4 : i % 4;
 
+        tempArr.forEach((date) => {
+            if (date.id === dayItem.id) {
+                dayItem.isReserved = true;
+            }
+        })
         arr.push(dayItem);
 
-        if(i % 4 === 0){
+        if (i % 4 === 0) {
             daysObject.days.push(arr);
             arr = [];
         }
-
-        /*
-            tempArr.forEach((date) => {
-        
-            })
-        */
     }
-    console.log(daysObject.days);
 
-    console.log('tempArr', tempArr);
-    //console.log(firstDay.toLocaleDateString());
-    //console.log(lastDay.toLocaleDateString());
-    //console.log(first);
-    //console.log(last);
-
-    /**
-     * firstdate al => last date e itemleri array e koy
-     * id'lerine bakarak days oluştur
-     * idlerin olduğu yerler isReserved: true olacak in const day
-     */
+    return daysObject;
 }

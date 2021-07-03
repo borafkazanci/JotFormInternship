@@ -15,7 +15,7 @@ function DateSelector({ dates, setDates, datesAll }) {
     useEffect(() => {
         const dateString = getDateStringFromStartDate(startDate);
         setIntervalDate(dateString);
-        //console.log(organizeAppointmentBoxDates(startDate, datesAll));
+        console.log('entering...', organizeAppointmentBoxDates(startDate, datesAll));
     }, [startDate, datesAll]);
 
     return (

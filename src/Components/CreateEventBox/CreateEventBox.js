@@ -117,7 +117,7 @@ function CreateEventBox() {
                         setCountID(countID + 1);
                     }
                     else {
-                        alert('Please fill text boxes before add new row!');
+                        alert('Please select appointments before add new row!');
                     }
                 }
             }
