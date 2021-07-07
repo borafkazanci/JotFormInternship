@@ -13,13 +13,14 @@ function CreateEventBox() {
 
   const itemNumberAdder = (cData) => {
     let totalAmount = 0;
-
     const newTypeArr = wsData.filter((iData) => (iData.type).substring(5) === (cData.type).substring(5));
-    const newItemArr = newTypeArr.filter((iData) => (iData.type).substring(0, 4) !== (cData.type).substring(0, 4));
+    const newItemArr = newTypeArr.filter((iData) => (iData.type).substring(0, 4) !== (cData.type).substring(0, 4)); //items in cat
 
     newItemArr.forEach((data, index) => {
       cData.items[index] = data;
-      totalAmount += data.number * data.dates.length;
+
+      data.number += data.dates[0].amount * data.dates.length;
+      totalAmount += data.number;
     });
     return totalAmount;
   };
@@ -102,7 +103,7 @@ function CreateEventBox() {
             id: countID,
             type: type,
             title: title,
-            number: amount, //will change
+            number: 0,
             price: price,
             dates: []
           };

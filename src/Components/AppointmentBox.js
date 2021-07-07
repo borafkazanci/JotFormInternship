@@ -6,8 +6,15 @@ import { dateArraySort } from '../Utils';
 // taken from 'https://www.npmjs.com/package/react-appointment-picker'
 export default class AppointmentBox extends Component {
   state = {
-    continuousLoading: false
+    continuousLoading: false,
+    type: this.props.type,
+    initDates: this.props?.currDays
   };
+
+  stateDefiner = () => {
+    this.setState({ initDates: this.props?.currDays });
+    console.log('inside:', this.state.initDates);
+  }
 
   updateAndNotify = () => {
     if (this.updateTimer) return;
@@ -18,9 +25,17 @@ export default class AppointmentBox extends Component {
     }, 100);
   }
 
+  componentDidMount() {
+    this.stateDefiner();
+    console.log("component did mount");
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.firstDate !== this.props.firstDate) {
       this.updateAndNotify();
+      this.stateDefiner();
+      console.log(new Date(this.props.firstDate))
+      console.log("component did update");
     }
   }
 
@@ -68,19 +83,18 @@ export default class AppointmentBox extends Component {
       },
       async () => {
         if (removeCb) {
-          await new Promise((resolve) => setTimeout(resolve, 250));
-          console.log(
-            `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
-          );
+          await new Promise((resolve) => setTimeout(resolve, 100));
           removeCb(params.day, params.number);
         }
         await new Promise((resolve) => setTimeout(resolve, 100));
-        console.log(
-          `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
-        ); // day + '' + time 
         addCb(day, number, time, id);
 
-        this.addAppointmentToArray(day, number, id);
+        if (this.state.type === 'setup') {
+          this.addAppointmentToArray(day, number, id);
+        }
+        else {
+          this.props.setSelectedAppointment(day + number);
+        }
         this.setState({ continuousLoading: false });
       }
     );
@@ -96,21 +110,23 @@ export default class AppointmentBox extends Component {
       },
       async () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
-        console.log(
-          `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
-        );
         removeCb(day, number);
 
-        this.removeAppointmentFromArray(day, number);
+        if (this.state.type === 'setup') {
+          this.removeAppointmentFromArray(day, number);
+        }
+        else {
+          this.props.setSelectedAppointment('');
+        }
         this.setState({ continuousLoading: false });
       }
     );
   };
 
   render() {
-    const days = this.props?.currDays;
+    const { continuousLoading, initDates } = this.state;
 
-    const { continuousLoading } = this.state;
+    const days = initDates;
 
     return (
       <div>
@@ -125,7 +141,7 @@ export default class AppointmentBox extends Component {
             new Date(this.props.firstDate)
           }
           days={days}
-          maxReservableAppointments={20}
+          maxReservableAppointments={this.props.maxResAppointments}
           visible
           loading={continuousLoading}
           continuous

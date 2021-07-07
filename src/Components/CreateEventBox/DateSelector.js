@@ -11,14 +11,13 @@ import addMonths from "date-fns/addMonths";
 function DateSelector({ dates, setDates, datesAll }) {
   const [startDate, setStartDate] = useState(new Date());
   const [intervalDate, setIntervalDate] = useState('');
-
   const [currDays, setCurrDays] = useState('');
 
   useEffect(() => {
     const dateString = getDateStringFromStartDate(startDate);
     setIntervalDate(dateString);
 
-    setCurrDays(organizeAppointmentBoxDates(startDate, datesAll)?.days);
+    setCurrDays(organizeAppointmentBoxDates(startDate, datesAll, 'setup')?.days);
   }, [startDate, datesAll]);
 
   return (
@@ -44,6 +43,8 @@ function DateSelector({ dates, setDates, datesAll }) {
               dates={dates}
               setDates={setDates}
               currDays={currDays}
+              maxResAppointments={24}
+              type={'setup'}
             /> :
             null
         }

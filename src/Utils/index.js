@@ -41,23 +41,32 @@ export const getDateStringFromStartDate = (startDate) => {
 
 export const organizeAppointmentBoxDates = (
   startDate,
-  datesAll
+  datesAll,
+  reserveType
 ) => {
   const firstDay = firstLastDateCalculator(startDate)[0];
   const lastDay = firstLastDateCalculator(startDate)[1];
+  const initReserve = reserveType === 'setup' ? false : true;
 
   let tempArr = [];
   const fTime = firstDay.getTime();
   const lTime = lastDay.getTime();
-  tempArr = datesAll.filter((function callbacFn(date) {
+  tempArr = datesAll?.filter((function callbacFn(date) {
+    let dateData = '';
+    if (reserveType === 'setup') {
+      dateData = date.day;
+    }
+    else {
+      dateData = date.date.day;
+    }
     const dfTime = new Date(
-      date.day.substring(6),
-      date.day.substring(3, 5) - 1,
-      date.day.substring(0, 2), 22)?.getTime();
+      dateData.substring(6),
+      dateData.substring(3, 5) - 1,
+      dateData.substring(0, 2), 22)?.getTime();
     const dlTime = new Date(
-      date.day.substring(6),
-      date.day.substring(3, 5) - 1,
-      date.day.substring(0, 2), 10)?.getTime();
+      dateData.substring(6),
+      dateData.substring(3, 5) - 1,
+      dateData.substring(0, 2), 10)?.getTime();
 
     return fTime <= dfTime && dlTime <= lTime;
   }));
@@ -72,15 +81,23 @@ export const organizeAppointmentBoxDates = (
     const dayItem = {
       id: '',
       number: '',
-      isReserved: false
+      isReserved: initReserve
     };
 
     dayItem.id = i;
     dayItem.number = i % 4 === 0 ? 4 : i % 4;
 
-    tempArr.forEach((date) => {
-      if (date.id === dayItem.id) {
-        dayItem.isReserved = true;
+    tempArr?.forEach((date) => {
+      let dateData = '';
+      if (reserveType === 'setup') {
+        dateData = date.id;
+      }
+      else {
+        dateData = date.date.id;
+      }
+
+      if (dateData === dayItem.id) {
+        dayItem.isReserved = !initReserve;
       }
     })
     arr.push(dayItem);
