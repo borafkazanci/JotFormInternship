@@ -50,7 +50,7 @@ function DateSelector({ dates, setDates, datesAll }) {
         }
       </div>
       <div className="type-box">
-        <label><BiShow className="show-dates-btn" /></label>
+        <BiShow className="show-dates-btn" />
         <span className="type-box-text-long">
           {
             dates.map((data) => {

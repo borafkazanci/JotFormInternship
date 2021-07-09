@@ -103,7 +103,7 @@ function CreateEventBox() {
             id: countID,
             type: type,
             title: title,
-            number: 0,
+            number: amount,
             price: price,
             dates: []
           };
@@ -153,16 +153,13 @@ function CreateEventBox() {
 
   return (
     <div>
-      <h2>Enter Your Inventory to Table</h2>
-      <button className="table-btn" onClick={saveDatas}>
-        Save Datas
-      </button>
       <Table
         wsData={wsData}
         addRow={addRow}
         deleteRow={deleteRow}
         datesAll={datesAll}
         setDatesAll={setDatesAll}
+        saveDatas={saveDatas}
       />
     </div>
   );

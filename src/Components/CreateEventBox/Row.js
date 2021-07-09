@@ -6,28 +6,27 @@ function Row({ data, deleteRow }) {
   const { type: typeCheck, title: titleCheck, number: numberCheck, price: priceCheck, dates: datesArr } = data;
 
   return (
-    <tbody>
-      <tr>
-        <td>
+      <div className="row">
+        <div className="cell" data-title="Type">
           {
             typeCheck !== '' ?
               typeCheck.substring(0, 4) :
               null
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Title">
           {
             titleCheck
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Type Name">
           {
             typeCheck !== '' ?
               typeCheck.substring(5) :
               null
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Amount">
           {
             typeCheck !== '' ?
               (typeCheck.substring(0, 4) === 'cate' ?
@@ -35,8 +34,8 @@ function Row({ data, deleteRow }) {
                 numberCheck) :
               null
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Price">
           {
             typeCheck !== '' ?
               (typeCheck.substring(0, 4) === 'cate' ?
@@ -44,14 +43,14 @@ function Row({ data, deleteRow }) {
                 <p>${priceCheck}</p>) :
               null
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Dates">
           {
             typeCheck !== '' ?
               (typeCheck.substring(0, 4) === 'cate' ?
                 null :
                 <div className="type-box">
-                  <label><BiShow className="show-dates-btn" /></label>
+                  <BiShow className="show-dates-btn" />
                   <span className="type-box-text-long">
                     {
                       datesArr.map((data) => { // data = datesObject: {date, amount}
@@ -67,19 +66,18 @@ function Row({ data, deleteRow }) {
               ) :
               null
           }
-        </td>
-        <td>
+        </div>
+        <div className="cell" data-title="Empty">
           <div className="type-box">
-            <button onClick={() => deleteRow(data)}>
+            <button className="add-del-btn" onClick={() => deleteRow(data)}>
               <AiFillDelete />
             </button>
             <span className="type-box-text">
               Delete row
             </span>
           </div>
-        </td>
-      </tr>
-    </tbody>
+        </div>
+      </div>
   );
 }
 

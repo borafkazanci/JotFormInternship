@@ -1,10 +1,15 @@
 import './BoxItem.css';
 import { AiOutlineArrowDown } from 'react-icons/ai';
-import { useState } from 'react';
+import { useEffect,  useState } from 'react';
 
 function Category({ category, setBuyCatId, setBuyItemId }) {
   const { id, title, type, number, items } = category;
   const [showItems, setShowItems] = useState(false);
+
+  useEffect(() => {
+    setBuyCatId(false);
+    setBuyItemId(false);
+  }, [setBuyCatId, setBuyItemId, showItems]);
 
   const itemBox = (
     id,

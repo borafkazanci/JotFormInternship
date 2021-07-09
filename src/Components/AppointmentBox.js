@@ -8,12 +8,13 @@ export default class AppointmentBox extends Component {
   state = {
     continuousLoading: false,
     type: this.props.type,
-    initDates: this.props?.currDays
+    initDates: this.props?.currDays,
+    isLoad: false,
+    renderCap: 0
   };
 
   stateDefiner = () => {
     this.setState({ initDates: this.props?.currDays });
-    console.log('inside:', this.state.initDates);
   }
 
   updateAndNotify = () => {
@@ -27,6 +28,7 @@ export default class AppointmentBox extends Component {
 
   componentDidMount() {
     this.stateDefiner();
+    this.setState({ isLoad: true });
     console.log("component did mount");
   }
 
@@ -34,8 +36,13 @@ export default class AppointmentBox extends Component {
     if (prevProps.firstDate !== this.props.firstDate) {
       this.updateAndNotify();
       this.stateDefiner();
-      console.log(new Date(this.props.firstDate))
-      console.log("component did update");
+      console.log("component did update -------");
+    }
+    else if (this.state.isLoad && this.state.renderCap < 1) {
+      this.updateAndNotify();
+      this.stateDefiner();
+      this.setState({ renderCap: this.state.renderCap + 1 });
+      console.log("component did update diff");
     }
   }
 

@@ -1,5 +1,6 @@
 import EventBox from './EventBox/EventBox';
 import CreateEventBox from './CreateEventBox/CreateEventBox';
+import './CreateEventBox/Create.css'
 import { useState } from 'react';
 
 function TicketSelector() {
@@ -7,22 +8,18 @@ function TicketSelector() {
 
   return (
     <div className="App">
-      <button onClick={function (event) {
+      <button className="table-btn" onClick={function (event) {
         localStorage.clear();
         console.log('Local storage is clear.')
       }}>
         Clear Local Storage
       </button>
       <div>
-        |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
-      </div>
-      <div>
-        <button onClick={() => setSell(!sell)}>
+        <button className="table-btn" onClick={() => setSell(!sell)}>
           Change Mode
         </button>
       </div>
       <div>
-        <h1>Welcome Bruh</h1>
         {
           sell ?
             <CreateEventBox /> :
@@ -30,7 +27,6 @@ function TicketSelector() {
         }
       </div>
     </div>
-
   );
   /*    
   const quest = {
