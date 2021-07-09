@@ -66,7 +66,7 @@ export const organizeAppointmentBoxDates = (
     const dlTime = new Date(
       dateData.substring(6),
       dateData.substring(3, 5) - 1,
-      dateData.substring(0, 2), 10)?.getTime();
+      dateData.substring(0, 2), 3)?.getTime();
 
     return fTime <= dfTime && dlTime <= lTime;
   }));
